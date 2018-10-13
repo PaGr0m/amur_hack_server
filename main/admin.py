@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Location, Trashcan, Urn, Client, Company
+from .models import Client, Company, Location, Trashcan, Urn
 
 
 class CompanyAdmin(admin.ModelAdmin):
