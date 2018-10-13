@@ -18,15 +18,15 @@ class User(models.Model):
 
 # Абсолютно не уверен в данном классе. Его делаю, чтобы урны могли
 # ссылаться на {типы}. Возможно это все решается простым {enum}
-class TypesUrn(models.Model):
-    name = models.TextField(verbose_name="Тип мусора")
-
-    class Meta:
-        verbose_name = "Тип мусорки"
-        verbose_name_plural = "Типы мусорок"
-
-    def __str__(self):
-        return self.name
+# class TypesUrn(models.Model):
+#     name = models.TextField(verbose_name="Тип мусора")
+#
+#     class Meta:
+#         verbose_name = "Тип мусорки"
+#         verbose_name_plural = "Типы мусорок"
+#
+#     def __str__(self):
+#         return self.name
 
 
 class Location(models.Model):
@@ -43,14 +43,25 @@ class Location(models.Model):
 
 
 class Urn(models.Model):
+    TRASH_TYPE_CHOICES = (
+        ("GLASS", "GLASS"),
+        ("PLASTIC", "PLASTIC"),
+        ("PAPER", "PAPER"),
+        ("METAL", "METAL"),
+        ("BATTERIES", "BATTERIES"),
+        ("OTHER", "OTHER"),
+    )
+
     location = models.ForeignKey("Location",
                                  verbose_name="Местоположение",
                                  related_name="location_urns",
                                  on_delete="CASCADE")
-    types = models.ForeignKey("TypesUrn",
-                              verbose_name="Тип",
-                              related_name="type_urns",
-                              on_delete="CASCADE")
+    trash_type = models.TextField(verbose_name="Тип мусора",
+                                  choices=TRASH_TYPE_CHOICES)
+    # types = models.ForeignKey("TypesUrn",
+    #                           verbose_name="Тип",
+    #                           related_name="type_urns",
+    #                           on_delete="CASCADE")
 
     class Meta:
         verbose_name = "Мусорка"
