@@ -22,8 +22,8 @@ class Client(models.Model):
 
 class Location(models.Model):
     name = models.TextField(verbose_name="Название места")
-    longitude = models.TextField(verbose_name="Долгота")
-    latitude = models.TextField(verbose_name="Широта")
+    longitude = models.FloatField(verbose_name="Долгота")
+    latitude = models.FloatField(verbose_name="Широта")
 
     class Meta:
         verbose_name = "Местоположение"
