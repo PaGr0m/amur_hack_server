@@ -2,7 +2,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from main.models import Urn, Trashcan, Client
+from main.models import Urn, Trashcan, Client, Company
 
 
 @csrf_exempt
@@ -65,3 +65,20 @@ def authorization(request):
             "answer": "error"
         }
     return Response(report)
+
+
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((AllowAny,))
+def get_company_list(request):
+    all_list = []
+    for company in Company.objects.all():
+        company_dict = {}
+        company_dict.update({
+            "longitude": company.location.longitude,
+            "latitude": company.location.latitude,
+            "name": company.name
+        })
+        all_list.append(company_dict)
+
+    return Response(all_list)
