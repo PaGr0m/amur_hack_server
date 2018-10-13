@@ -18,11 +18,12 @@ class Client(models.Model):
     def __str__(self):
         return self.nickname
 
-@receiver(post_save, sender=User)
-def create_or_update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Client.objects.create(user=instance)
-    instance.client.save()
+# эту штуку надо будет перенести в экшен регистрации пользователя(не копипастом)
+# @receiver(post_save, sender=User)
+# def create_or_update_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Client.objects.create(user=instance)
+#     instance.client.save()
 
 class Location(models.Model):
     name = models.TextField(verbose_name="Название места", null = True, blank = True)
