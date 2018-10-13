@@ -1,29 +1,24 @@
 import uuid
 from django.db import models
-from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-from django.dispatch import receiver
 
 
 class Client(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    fio = models.TextField(verbose_name="ФИО", null = True, blank = True)
-    nickname = models.TextField(verbose_name="Никнейм", null = True, blank = True)
-    score = models.IntegerField(verbose_name="Баланс баллов", null = True, blank = True)
+    login = models.TextField(verbose_name="Логин")
+    password = models.TextField(verbose_name="Пароль")
+    token = models.UUIDField(verbose_name="Токен",
+                             default=uuid.uuid4,
+                             editable=False)
+    fio = models.TextField(verbose_name="ФИО")
+    nickname = models.TextField(verbose_name="Никнейм")
+    score = models.IntegerField(verbose_name="Баланс баллов")
 
     class Meta:
-        verbose_name = "Пользователь"
-        verbose_name_plural = "Пользователи"
+        verbose_name = "Клиент"
+        verbose_name_plural = "Клиенты"
 
     def __str__(self):
         return self.nickname
 
-# эту штуку надо будет перенести в экшен регистрации пользователя(не копипастом)
-# @receiver(post_save, sender=User)
-# def create_or_update_user_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Client.objects.create(user=instance)
-#     instance.client.save()
 
 class Location(models.Model):
     name = models.TextField(verbose_name="Название места")
