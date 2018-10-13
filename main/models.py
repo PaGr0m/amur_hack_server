@@ -17,19 +17,6 @@ class User(models.Model):
         return self.login
 
 
-# Абсолютно не уверен в данном классе. Его делаю, чтобы урны могли
-# ссылаться на {типы}. Возможно это все решается простым {enum}
-# class TypesUrn(models.Model):
-#     name = models.TextField(verbose_name="Тип мусора")
-#
-#     class Meta:
-#         verbose_name = "Тип мусорки"
-#         verbose_name_plural = "Типы мусорок"
-#
-#     def __str__(self):
-#         return self.name
-
-
 class Location(models.Model):
     name = models.TextField(verbose_name="Название места")
     coordinate_x = models.TextField(verbose_name="Долгота")
@@ -43,8 +30,21 @@ class Location(models.Model):
         return self.name
 
 
+class Trashcan(models.Model):
+    location = models.ForeignKey("Location",
+                                 verbose_name="Местоположение",
+                                 related_name="location_urns",
+                                 on_delete="CASCADE")
+
+    class Meta:
+        verbose_name = "Мусорка"
+        verbose_name_plural = "Мусорки"
+
+    def __str__(self):
+        return str(self.location)
+
+
 class Urn(models.Model):
-    UUID = models.UUIDField('UUID мусорки', default=uuid.uuid4, editable=False)
     TRASH_TYPE_CHOICES = (
         ("GLASS", "GLASS"),
         ("PLASTIC", "PLASTIC"),
@@ -54,21 +54,22 @@ class Urn(models.Model):
         ("OTHER", "OTHER"),
     )
 
-    location = models.ForeignKey("Location",
-                                 verbose_name="Местоположение",
-                                 related_name="location_urns",
-                                 on_delete="CASCADE")
+    UUID = models.UUIDField('UUID мусорки',
+                            default=uuid.uuid4,
+                            editable=False)
     trash_type = models.TextField(verbose_name="Тип мусора",
                                   choices=TRASH_TYPE_CHOICES)
-    # types = models.ForeignKey("TypesUrn",
-    #                           verbose_name="Тип",
-    #                           related_name="type_urns",
-    #                           on_delete="CASCADE")
+    workload = models.IntegerField(verbose_name="Загруженность урны")
+
+    trashcan = models.ForeignKey("Trashcan",
+                                 verbose_name="Мусорка",
+                                 related_name="trashcan_urn",
+                                 on_delete="CASCADE")
 
     class Meta:
-        verbose_name = "Мусорка"
-        verbose_name_plural = "Мусорки"
+        verbose_name = "Урна"
+        verbose_name_plural = "Урны"
 
     def __str__(self):
-        return str(self.location) + " " + str(self.id)
+        return str(self.trashcan.location) + " " + str(self.trash_type)
 
