@@ -41,8 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'mobile_api',
-    'raspberry_api',
+
+    "main",
+    "mobile_api",
+    "raspberry_api",
 ]
 
 MIDDLEWARE = [
