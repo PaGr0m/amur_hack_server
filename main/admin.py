@@ -1,9 +1,7 @@
 from django.contrib import admin
-<<<<<<< HEAD
 from .models import Location, Urn, Client
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-=======
 from .models import Location, Trashcan, Urn, User
 
 
@@ -20,7 +18,6 @@ class TrashcanAdmin(admin.ModelAdmin):
     class Meta:
         model = Trashcan
 
->>>>>>> pagrom
 
 class UrnAdmin(admin.ModelAdmin):
     list_display = ["id", "trash_type", "workload", "trashcan"]
@@ -40,19 +37,19 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Trashcan, TrashcanAdmin)
 admin.site.register(Urn, UrnAdmin)
-<<<<<<< HEAD
+
 
 class ClientInline(admin.StackedInline):
     model = Client
     can_delete = False
     verbose_name_plural = 'пользователи'
 
+
 # Define a new User admin
 class UserAdmin(BaseUserAdmin):
     inlines = (ClientInline,)
 
+
 # Re-register UserAdmin
 admin.site.unregister(User)
-=======
->>>>>>> pagrom
 admin.site.register(User, UserAdmin)

@@ -19,7 +19,6 @@ class Client(models.Model):
         return self.nickname
 
 
-<<<<<<< HEAD
 @receiver(post_save, sender=User)
 def create_user_client(sender, instance, created, **kwargs):
     if created:
@@ -31,8 +30,6 @@ def save_user_client(sender, instance, **kwargs):
     instance.client.save()
 
 
-=======
->>>>>>> pagrom
 class Location(models.Model):
     name = models.TextField(verbose_name="Название места")
     longitude = models.TextField(verbose_name="Долгота")
@@ -76,15 +73,13 @@ class Urn(models.Model):
                             editable=False)
     trash_type = models.TextField(verbose_name="Тип мусора",
                                   choices=TRASH_TYPE_CHOICES)
-<<<<<<< HEAD
-=======
+
     workload = models.IntegerField(verbose_name="Загруженность урны")
 
     trashcan = models.ForeignKey("Trashcan",
                                  verbose_name="Мусорка",
                                  related_name="trashcan_urn",
                                  on_delete="CASCADE")
->>>>>>> pagrom
 
     class Meta:
         verbose_name = "Урна"
