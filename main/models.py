@@ -19,7 +19,7 @@ class Client(models.Model):
         verbose_name_plural = "Клиенты"
 
     def __str__(self):
-        return self.nickname
+        return self.email
 
 
 class Location(models.Model):

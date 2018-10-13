@@ -37,19 +37,29 @@ from main.models import Urn, Trashcan, Client
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def get_urns_workload(request):
-    print("TRASH")
+    all_list = []
+    trashcan_dict = {}
+    urn_dict = {}
     for trashcan in Trashcan.objects.all():
-        print("TRASH", trashcan)
         for urn in Urn.objects.filter(trashcan=trashcan):
-            urn_dict = {
+            urn_dict.update({
                 str(urn.trash_type): urn.workload
-            }
-        trashcan_dict = {
-            str(trashcan): urn_dict,
-            "location": trashcan.location
-        }
 
-    return Response(trashcan_dict, status=HTTP_200_OK)
+            })
+
+        urn_dict.update({
+            "name": trashcan.location.name,
+            "longitude": trashcan.location.longitude,
+            "latitude": trashcan.location.latitude
+        })
+        # trashcan_dict = {
+        #     str(trashcan): urn_dict,
+        #     "longitude": trashcan.location.longitude,
+        #     "latitude": trashcan.location.latitude
+        # }
+        all_list.append(trashcan_dict)
+
+    return Response(urn_dict)
 
 
 @csrf_exempt
@@ -91,3 +101,24 @@ def open_bin(request):
     return Response(data, status=HTTP_200_OK)
 
 
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((AllowAny,))
+def authorization(request):
+    email = request.data.get("email")
+    password = request.data.get("pass")
+
+    client = Client.objects.get(email=email)
+    if client.password == password:
+        report = {
+            "fname": client.firstname,
+            "lname": client.surname,
+            "token": client.token,
+            "phone": client.phone,
+            "score": client.score
+        }
+    else:
+        report = {
+            "answer": "error"
+        }
+    return Response(report)
