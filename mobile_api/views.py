@@ -17,6 +17,9 @@ from rest_framework.response import Response
 # from .serializers import BeaconSerializer
 
 # Create your views here.
+from main.models import Urn
+
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))
@@ -41,7 +44,15 @@ def sample_api(request):
     data = {'sample_data': 123}
     return Response(data, status=HTTP_200_OK)
 
-#
+
+@csrf_exempt
+@api_view(["POST"])
+def open_bin(request):
+    print(request)
+    yo = Urn.objects.where(UUID=request['id'])
+    data = {'status': 'ok'}
+    return Response(data, status=HTTP_200_OK)
+
 # @csrf_exempt
 # @api_view(["GET"])
 # def beacons_index(request):
