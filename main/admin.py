@@ -25,7 +25,7 @@ class UrnAdmin(admin.ModelAdmin):
 
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ["id", "login", "token", "nickname", "fio", "score"]
+    list_display = ["id", "email", "password", "token", "firstname", "surname", "phone", "score"]
 
     class Meta:
         model = Client

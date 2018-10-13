@@ -3,14 +3,14 @@ from django.db import models
 
 
 class Client(models.Model):
-    login = models.TextField(verbose_name="Логин")
+    email = models.EmailField(verbose_name="Почта")
     password = models.TextField(verbose_name="Пароль")
     token = models.UUIDField(verbose_name="Токен",
                              default=uuid.uuid4,
                              editable=False)
     firstname = models.TextField(verbose_name="Имя клиента")
     surname = models.TextField(verbose_name="Фамилия клиента")
-    nickname = models.TextField(verbose_name="Никнейм")
+    phone = models.TextField(verbose_name="Номер телефона")
     score = models.IntegerField(verbose_name="Баланс баллов",
                                 default=0)
 

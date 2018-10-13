@@ -56,11 +56,11 @@ def get_urns_workload(request):
 @api_view(["POST"])
 @permission_classes((AllowAny,))
 def client_create(request):
-    client = Client(login=request.data.get("login"),
-                    password=request.data.get("password"),
-                    fio=request.data.get("fio"),
-                    nickname=request.data.get("nickname"),
-                    score=request.data.get("score"))
+    client = Client(email=request.data.get("email"),
+                    password=request.data.get("pass"),
+                    firstname=request.data.get("fname"),
+                    surname=request.data.get("lname"),
+                    phone=request.data.get("phone"))
     client.save()
     return Response("Client is create")
 
