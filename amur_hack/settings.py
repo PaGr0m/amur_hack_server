@@ -86,17 +86,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
 
-        # 'NAME': 'hackathon',
-        # 'USER': 'admin123',
-        # 'PASSWORD': 'admin123',
-        # 'HOST': 'localhost',
-        # 'PORT': '',
-
-        'NAME': 'amur_digital',
-        'USER': 'pagrom',
-        'PASSWORD': 'Grom1997',
+        'NAME': 'hackathon',
+        'USER': 'admin123',
+        'PASSWORD': 'admin123',
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '',
     }
 }
 
