@@ -9,6 +9,7 @@ settings_local.py
 .settings/
 other/
 venv/
+migrations/
 
 .idea/
 __pycache__/
