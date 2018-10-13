@@ -37,7 +37,6 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
-
 class Urn(models.Model):
     UUID = models.UUIDField('UUID мусорки', default=uuid.uuid4, editable=False)
     TRASH_TYPE_CHOICES = (
