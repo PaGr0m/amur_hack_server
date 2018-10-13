@@ -19,6 +19,7 @@ class Client(models.Model):
         return self.nickname
 
 
+<<<<<<< HEAD
 @receiver(post_save, sender=User)
 def create_user_client(sender, instance, created, **kwargs):
     if created:
@@ -30,10 +31,12 @@ def save_user_client(sender, instance, **kwargs):
     instance.client.save()
 
 
+=======
+>>>>>>> pagrom
 class Location(models.Model):
     name = models.TextField(verbose_name="Название места")
-    coordinate_x = models.TextField(verbose_name="Долгота")
-    coordinate_y = models.TextField(verbose_name="Широта")
+    longitude = models.TextField(verbose_name="Долгота")
+    latitude = models.TextField(verbose_name="Широта")
 
     class Meta:
         verbose_name = "Местоположение"
@@ -43,8 +46,22 @@ class Location(models.Model):
         return self.name
 
 
+class Trashcan(models.Model):
+    # name = models.TextField(verbose_name="Название мусорки")
+    location = models.ForeignKey("Location",
+                                 verbose_name="Местоположение",
+                                 related_name="location_urns",
+                                 on_delete="CASCADE")
+
+    class Meta:
+        verbose_name = "Мусорка"
+        verbose_name_plural = "Мусорки"
+
+    def __str__(self):
+        return str(self.location)
+
+
 class Urn(models.Model):
-    UUID = models.UUIDField('UUID мусорки', default=uuid.uuid4, editable=False)
     TRASH_TYPE_CHOICES = (
         ("GLASS", "GLASS"),
         ("PLASTIC", "PLASTIC"),
@@ -54,17 +71,25 @@ class Urn(models.Model):
         ("OTHER", "OTHER"),
     )
 
-    location = models.ForeignKey("Location",
-                                 verbose_name="Местоположение",
-                                 related_name="location_urns",
-                                 on_delete="CASCADE")
+    UUID = models.UUIDField('UUID мусорки',
+                            default=uuid.uuid4,
+                            editable=False)
     trash_type = models.TextField(verbose_name="Тип мусора",
                                   choices=TRASH_TYPE_CHOICES)
+<<<<<<< HEAD
+=======
+    workload = models.IntegerField(verbose_name="Загруженность урны")
+
+    trashcan = models.ForeignKey("Trashcan",
+                                 verbose_name="Мусорка",
+                                 related_name="trashcan_urn",
+                                 on_delete="CASCADE")
+>>>>>>> pagrom
 
     class Meta:
-        verbose_name = "Мусорка"
-        verbose_name_plural = "Мусорки"
+        verbose_name = "Урна"
+        verbose_name_plural = "Урны"
 
     def __str__(self):
-        return str(self.location) + " " + str(self.id)
+        return str(self.trashcan.location) + " " + str(self.trash_type)
 
