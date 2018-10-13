@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.shortcuts import render
 
 # Create your views here.
@@ -48,9 +49,16 @@ def sample_api(request):
 @csrf_exempt
 @api_view(["POST"])
 def open_bin(request):
-    print(request)
-    yo = Urn.objects.where(UUID=request['id'])
-    data = {'status': 'ok'}
+    try:
+        urn = Urn.objects.filter(UUID=request.data.get('UUID')).first()
+    except ValidationError:
+        data = {'status': 'not UUID'}
+        return Response(data, status=HTTP_200_OK)
+    if urn:
+        data = {'status': 'ok'}
+        # сигнал на открытие
+    else:
+        data = {'status': 'urn not found'}
     return Response(data, status=HTTP_200_OK)
 
 # @csrf_exempt
