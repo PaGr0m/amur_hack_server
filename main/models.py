@@ -47,10 +47,10 @@ class Urn(models.Model):
                                  verbose_name="Местоположение",
                                  related_name="location_urns",
                                  on_delete="CASCADE")
-    type = models.ForeignKey("TypesUrn",
-                             verbose_name="Тип",
-                             related_name="type_urns",
-                             on_delete="CASCADE")
+    types = models.ForeignKey("TypesUrn",
+                              verbose_name="Тип",
+                              related_name="type_urns",
+                              on_delete="CASCADE")
 
     class Meta:
         verbose_name = "Мусорка"
