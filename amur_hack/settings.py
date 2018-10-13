@@ -85,17 +85,12 @@ WSGI_APPLICATION = 'amur_hack.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hackathon',
 
+        'NAME': 'hackathon',
         'USER': 'admin123',
         'PASSWORD': 'admin123',
         'HOST': 'localhost',
         'PORT': '',
-
-        # 'USER': 'pagrom',
-        # 'PASSWORD': 'Grom1997',
-        # 'HOST': 'localhost',
-        # 'PORT': '5432',
     }
 }
 
