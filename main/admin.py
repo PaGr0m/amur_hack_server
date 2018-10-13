@@ -1,8 +1,5 @@
 from django.contrib import admin
-from .models import Location, Urn, Client
-from django.contrib.auth.models import User
-from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from .models import Location, Trashcan, Urn, User
+from .models import Location, Trashcan, Urn, Client
 
 
 class LocationAdmin(admin.ModelAdmin):
@@ -27,29 +24,14 @@ class UrnAdmin(admin.ModelAdmin):
         model = Urn
 
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = ["id", "login", "nickname", "fio", "score"]
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ["id", "login", "token", "nickname", "fio", "score"]
 
     class Meta:
-        model = User
+        model = Client
 
 
+admin.site.register(Client, ClientAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Trashcan, TrashcanAdmin)
 admin.site.register(Urn, UrnAdmin)
-
-
-class ClientInline(admin.StackedInline):
-    model = Client
-    can_delete = False
-    verbose_name_plural = 'пользователи'
-
-
-# Define a new User admin
-class UserAdmin(BaseUserAdmin):
-    inlines = (ClientInline,)
-
-
-# Re-register UserAdmin
-admin.site.unregister(User)
-admin.site.register(User, UserAdmin)
