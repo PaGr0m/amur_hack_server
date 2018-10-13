@@ -18,17 +18,11 @@ class Client(models.Model):
     def __str__(self):
         return self.nickname
 
-
 @receiver(post_save, sender=User)
-def create_user_client(sender, instance, created, **kwargs):
+def create_or_update_user_profile(sender, instance, created, **kwargs):
     if created:
-        Client.objects.get_or_create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_client(sender, instance, **kwargs):
+        Client.objects.create(user=instance)
     instance.client.save()
-
 
 class Location(models.Model):
     name = models.TextField(verbose_name="Название места", null = True, blank = True)
