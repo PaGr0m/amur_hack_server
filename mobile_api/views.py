@@ -1,7 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
 
-# Create your views here.
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -14,10 +13,6 @@ from rest_framework.status import (
     HTTP_200_OK
 )
 from rest_framework.response import Response
-# from .models import Beacon
-# from .serializers import BeaconSerializer
-
-# Create your views here.
 from main.models import Urn, Trashcan, Client
 
 
@@ -37,6 +32,24 @@ from main.models import Urn, Trashcan, Client
 #     token, _ = Token.objects.get_or_create(user=user)
 #     return Response({'token': token.key},
 #                     status=HTTP_200_OK)
+
+# @csrf_exempt
+@api_view(["GET"])
+# @permission_classes((AllowAny,))
+def get_urns_workload(request):
+    print("TRASH")
+    for trashcan in Trashcan.objects.all():
+        print("TRASH", trashcan)
+        for urn in Urn.objects.filter(trashcan=trashcan):
+            urn_dict = {
+                str(urn.trash_type): urn.workload
+            }
+        trashcan_dict = {
+            str(trashcan): urn_dict
+        }
+
+    return Response(trashcan_dict, status=HTTP_200_OK)
+
 
 
 @csrf_exempt
@@ -75,26 +88,3 @@ def open_bin(request):
     return Response(data, status=HTTP_200_OK)
 
 
-@csrf_exempt
-@api_view(["GET"])
-def get_urns_workload(request):
-    for trashcan in Trashcan.objects.all():
-        for urn in Urn.objects.filter(trashcan=trashcan):
-            urn_dict = {
-                urn.trash_type: urn.workload
-            }
-        trashcan_dict = {
-            trashcan: urn_dict
-        }
-
-    return Response(trashcan_dict, status=HTTP_200_OK)
-
-
-# @csrf_exempt
-# @api_view(["GET"])
-# def beacons_index(request):
-#     rest_list = Beacon.objects.all()
-#     serializer = BeaconSerializer(rest_list, many=True)
-#     return JsonResponse(serializer.data, safe=False)
-#     # data = serializers.serialize('json', Beacon.objects.all())
-#     # return Response(data, status=HTTP_200_OK)

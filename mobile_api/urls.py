@@ -7,7 +7,7 @@ from . import views
 
 
 urlpatterns = [
-    # path('beacons', views.beacons_index),
     path('mobile_api/client/create', views.client_create),
-    path('mobile_api/open_bin', views.open_bin)
+    path('mobile_api/urns/list', views.get_urns_workload),
+    path('mobile_api/open_bin', views.get_urns_workload)
 ]

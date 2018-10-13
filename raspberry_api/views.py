@@ -12,6 +12,7 @@ from rest_framework.status import (
 
 from main.models import Urn, Trashcan
 
+
 @csrf_exempt
 @api_view(["POST"])
 @permission_classes((AllowAny,))

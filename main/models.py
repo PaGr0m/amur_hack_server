@@ -8,9 +8,11 @@ class Client(models.Model):
     token = models.UUIDField(verbose_name="Токен",
                              default=uuid.uuid4,
                              editable=False)
-    fio = models.TextField(verbose_name="ФИО")
+    firstname = models.TextField(verbose_name="Имя клиента")
+    surname = models.TextField(verbose_name="Фамилия клиента")
     nickname = models.TextField(verbose_name="Никнейм")
-    score = models.IntegerField(verbose_name="Баланс баллов")
+    score = models.IntegerField(verbose_name="Баланс баллов",
+                                default=0)
 
     class Meta:
         verbose_name = "Клиент"
@@ -48,6 +50,21 @@ class Trashcan(models.Model):
         return str(self.location)
 
 
+class Company(models.Model):
+    name = models.TextField(verbose_name="Название организации")
+    location = models.ForeignKey("Location",
+                                 verbose_name="Местоположение",
+                                 related_name="location_companies",
+                                 on_delete="CASCADE")
+
+    class Meta:
+        verbose_name = "Компания"
+        verbose_name_plural = "Компании"
+
+    def __str__(self):
+        return str(self.name) + " " + str(self.location)
+
+
 class Urn(models.Model):
     TRASH_TYPE_CHOICES = (
         ("GLASS", "GLASS"),
@@ -64,7 +81,8 @@ class Urn(models.Model):
     trash_type = models.TextField(verbose_name="Тип мусора",
                                   choices=TRASH_TYPE_CHOICES)
 
-    workload = models.IntegerField(verbose_name="Загруженность урны")
+    workload = models.IntegerField(verbose_name="Загруженность урны",
+                                   default=0)
 
     trashcan = models.ForeignKey("Trashcan",
                                  verbose_name="Мусорка",
