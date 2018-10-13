@@ -7,9 +7,9 @@ from django.dispatch import receiver
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    fio = models.TextField(verbose_name="ФИО")
-    nickname = models.TextField(verbose_name="Никнейм")
-    score = models.IntegerField(verbose_name="Баланс баллов")
+    fio = models.TextField(verbose_name="ФИО", null = True, blank = True)
+    nickname = models.TextField(verbose_name="Никнейм", null = True, blank = True)
+    score = models.IntegerField(verbose_name="Баланс баллов", null = True, blank = True)
 
     class Meta:
         verbose_name = "Пользователь"
@@ -18,17 +18,12 @@ class Client(models.Model):
     def __str__(self):
         return self.nickname
 
-
-@receiver(post_save, sender=User)
-def create_user_client(sender, instance, created, **kwargs):
-    if created:
-        Client.objects.create(user=instance)
-
-
-@receiver(post_save, sender=User)
-def save_user_client(sender, instance, **kwargs):
-    instance.client.save()
-
+# эту штуку надо будет перенести в экшен регистрации пользователя(не копипастом)
+# @receiver(post_save, sender=User)
+# def create_or_update_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         Client.objects.create(user=instance)
+#     instance.client.save()
 
 class Location(models.Model):
     name = models.TextField(verbose_name="Название места")
