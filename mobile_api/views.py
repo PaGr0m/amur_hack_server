@@ -33,9 +33,9 @@ from main.models import Urn, Trashcan, Client
 #     return Response({'token': token.key},
 #                     status=HTTP_200_OK)
 
-# @csrf_exempt
-@api_view(["GET"])
-# @permission_classes((AllowAny,))
+@csrf_exempt
+@api_view(["POST"])
+@permission_classes((AllowAny,))
 def get_urns_workload(request):
     print("TRASH")
     for trashcan in Trashcan.objects.all():
@@ -45,11 +45,11 @@ def get_urns_workload(request):
                 str(urn.trash_type): urn.workload
             }
         trashcan_dict = {
-            str(trashcan): urn_dict
+            str(trashcan): urn_dict,
+            "location": trashcan.location
         }
 
     return Response(trashcan_dict, status=HTTP_200_OK)
-
 
 
 @csrf_exempt
