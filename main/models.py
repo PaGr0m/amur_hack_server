@@ -22,7 +22,7 @@ class Client(models.Model):
 @receiver(post_save, sender=User)
 def create_user_client(sender, instance, created, **kwargs):
     if created:
-        Client.objects.create(user=instance)
+        Client.objects.update_or_create(user=instance)
 
 
 @receiver(post_save, sender=User)
