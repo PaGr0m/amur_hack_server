@@ -7,9 +7,9 @@ from django.dispatch import receiver
 
 class Client(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    fio = models.TextField(verbose_name="ФИО")
-    nickname = models.TextField(verbose_name="Никнейм")
-    score = models.IntegerField(verbose_name="Баланс баллов")
+    fio = models.TextField(verbose_name="ФИО", null = True, blank = True)
+    nickname = models.TextField(verbose_name="Никнейм", null = True, blank = True)
+    score = models.IntegerField(verbose_name="Баланс баллов", null = True, blank = True)
 
     class Meta:
         verbose_name = "Пользователь"
@@ -31,9 +31,9 @@ def save_user_client(sender, instance, **kwargs):
 
 
 class Location(models.Model):
-    name = models.TextField(verbose_name="Название места")
-    coordinate_x = models.TextField(verbose_name="Долгота")
-    coordinate_y = models.TextField(verbose_name="Широта")
+    name = models.TextField(verbose_name="Название места", null = True, blank = True)
+    coordinate_x = models.TextField(verbose_name="Долгота", null = True, blank = True)
+    coordinate_y = models.TextField(verbose_name="Широта", null = True, blank = True)
 
     class Meta:
         verbose_name = "Местоположение"
