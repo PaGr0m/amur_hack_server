@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 
 
@@ -43,6 +44,7 @@ class Location(models.Model):
 
 
 class Urn(models.Model):
+    UUID = models.UUIDField('UUID мусорки', default=uuid.uuid4, editable=False)
     TRASH_TYPE_CHOICES = (
         ("GLASS", "GLASS"),
         ("PLASTIC", "PLASTIC"),
@@ -69,8 +71,4 @@ class Urn(models.Model):
 
     def __str__(self):
         return str(self.location) + " " + str(self.id)
-
-
-
-
 
