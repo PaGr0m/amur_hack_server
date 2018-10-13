@@ -1,33 +1,33 @@
 import uuid
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
-class User(models.Model):
-    login = models.TextField(verbose_name="Логин")
-    password = models.TextField(verbose_name="Пароль")
+class Client(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     fio = models.TextField(verbose_name="ФИО")
     nickname = models.TextField(verbose_name="Никнейм")
-    score = models.TextField(verbose_name="Баланс баллов")
+    score = models.IntegerField(verbose_name="Баланс баллов")
 
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
 
     def __str__(self):
-        return self.login
+        return self.nickname
 
 
-# Абсолютно не уверен в данном классе. Его делаю, чтобы урны могли
-# ссылаться на {типы}. Возможно это все решается простым {enum}
-# class TypesUrn(models.Model):
-#     name = models.TextField(verbose_name="Тип мусора")
-#
-#     class Meta:
-#         verbose_name = "Тип мусорки"
-#         verbose_name_plural = "Типы мусорок"
-#
-#     def __str__(self):
-#         return self.name
+@receiver(post_save, sender=User)
+def create_user_client(sender, instance, created, **kwargs):
+    if created:
+        Client.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_client(sender, instance, **kwargs):
+    instance.client.save()
 
 
 class Location(models.Model):
@@ -60,10 +60,6 @@ class Urn(models.Model):
                                  on_delete="CASCADE")
     trash_type = models.TextField(verbose_name="Тип мусора",
                                   choices=TRASH_TYPE_CHOICES)
-    # types = models.ForeignKey("TypesUrn",
-    #                           verbose_name="Тип",
-    #                           related_name="type_urns",
-    #                           on_delete="CASCADE")
 
     class Meta:
         verbose_name = "Мусорка"
