@@ -18,7 +18,7 @@ class User(models.Model):
 
 # Абсолютно не уверен в данном классе. Его делаю, чтобы урны могли
 # ссылаться на {типы}. Возможно это все решается простым {enum}
-class TypesUrn:
+class TypesUrn(models.Model):
     name = models.TextField(verbose_name="Тип мусора")
 
     class Meta:
