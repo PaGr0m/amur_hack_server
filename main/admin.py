@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Location, Trashcan, Urn, Client
+from .models import Location, Trashcan, Urn, Client, Company
+
+
+class CompanyAdmin(admin.ModelAdmin):
+    list_display = ["id", "name", "location"]
+
+    class Meta:
+        model = Company
 
 
 class LocationAdmin(admin.ModelAdmin):
@@ -35,3 +42,4 @@ admin.site.register(Client, ClientAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Trashcan, TrashcanAdmin)
 admin.site.register(Urn, UrnAdmin)
+admin.site.register(Company, CompanyAdmin)

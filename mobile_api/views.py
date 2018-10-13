@@ -35,7 +35,7 @@ from main.models import Urn, Trashcan, Client
 
 # @csrf_exempt
 @api_view(["GET"])
-# @permission_classes((AllowAny,))
+# @permission_classes((AllowAny,))
 def get_urns_workload(request):
     print("TRASH")
     for trashcan in Trashcan.objects.all():
@@ -62,7 +62,10 @@ def client_create(request):
                     surname=request.data.get("lname"),
                     phone=request.data.get("phone"))
     client.save()
-    return Response("Client is create")
+    report = {
+        "token": client.token
+    }
+    return Response(report)
 
 
 @csrf_exempt
