@@ -23,15 +23,21 @@ def update_urn(request):
         if urn.workload:
             if urn.trash_type == "GLASS":
                 urn.workload = request.data.get("glass")
+                urn.save()
             elif urn.trash_type == "PLASTIC":
                 urn.workload = request.data.get("plastic")
+                urn.save()
             elif urn.trash_type == "PAPER":
                 urn.workload = request.data.get("paper")
+                urn.save()
             elif urn.trash_type == "METAL":
                 urn.workload = request.data.get("metal")
+                urn.save()
             elif urn.trash_type == "BATTERIES":
                 urn.workload = request.data.get("batteries")
+                urn.save()
             elif urn.trash_type == "OTHER":
                 urn.workload = request.data.get("other")
-            urn.save()
+                urn.save()
+
     return Response("report")
