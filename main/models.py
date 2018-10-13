@@ -19,8 +19,8 @@ class User(models.Model):
 
 class Location(models.Model):
     name = models.TextField(verbose_name="Название места")
-    coordinate_x = models.TextField(verbose_name="Долгота")
-    coordinate_y = models.TextField(verbose_name="Широта")
+    longitude = models.TextField(verbose_name="Долгота")
+    latitude = models.TextField(verbose_name="Широта")
 
     class Meta:
         verbose_name = "Местоположение"
@@ -31,6 +31,7 @@ class Location(models.Model):
 
 
 class Trashcan(models.Model):
+    # name = models.TextField(verbose_name="Название мусорки")
     location = models.ForeignKey("Location",
                                  verbose_name="Местоположение",
                                  related_name="location_urns",

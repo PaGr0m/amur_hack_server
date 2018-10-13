@@ -1,13 +1,37 @@
 from django.contrib import admin
-from .models import Location, Urn, User, Trashcan
+from .models import Location, Trashcan, Urn, User
 
 
-# class UrnAdmin(admin.ModelAdmin):
-#     list_display = ('location', 'trash_type', 'UUID')
+class LocationAdmin(admin.ModelAdmin):
+    list_display = ["id", "name", "longitude", "latitude"]
 
-# admin.site.register(Urn, UrnAdmin)
+    class Meta:
+        model = Location
 
-admin.site.register(Trashcan)
-admin.site.register(Urn)
-admin.site.register(Location)
-admin.site.register(User)
+
+class TrashcanAdmin(admin.ModelAdmin):
+    list_display = ["id", "location"]
+
+    class Meta:
+        model = Trashcan
+
+
+class UrnAdmin(admin.ModelAdmin):
+    list_display = ["id", "trash_type", "workload", "trashcan"]
+    list_filter = ["trash_type", "trashcan"]
+
+    class Meta:
+        model = Urn
+
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ["id", "login", "nickname", "fio", "score"]
+
+    class Meta:
+        model = User
+
+
+admin.site.register(Location, LocationAdmin)
+admin.site.register(Trashcan, TrashcanAdmin)
+admin.site.register(Urn, UrnAdmin)
+admin.site.register(User, UserAdmin)
